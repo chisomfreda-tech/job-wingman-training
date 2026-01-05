@@ -1,0 +1,2148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Wingman Academy | Application Specialist Training</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #E63946;
+            --brand-teal: #2A8B84;
+            --primary-dark: #C1121F;
+            --secondary: #1D3557;
+            --accent: #457B9D;
+            --light: #F1FAEE;
+            --dark: #0D1B2A;
+            --success: #2A9D8F;
+            --warning: #E9C46A;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-500: #6c757d;
+            --gray-700: #495057;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--gray-100);
+            color: var(--dark);
+            line-height: 1.7;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Fraunces', serif; line-height: 1.3; }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Mobile menu toggle */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 200;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            background: var(--secondary);
+            color: white;
+            padding: 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 30px 25px;
+            background: var(--dark);
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .logo { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+
+        .sidebar-logo-img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logo-text { font-family: 'Fraunces', serif; font-size: 1.4em; font-weight: 700; }
+        .logo-subtitle { font-size: 0.85em; opacity: 0.7; margin-left: 52px; }
+
+        .progress-section { padding: 20px 25px; background: rgba(0,0,0,0.2); }
+        .progress-label { font-size: 0.85em; opacity: 0.8; margin-bottom: 8px; }
+        .progress-bar { height: 8px; background: rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--success); border-radius: 4px; transition: width 0.5s ease; }
+        .progress-text { font-size: 0.9em; margin-top: 8px; font-weight: 600; }
+
+        .nav-section { padding: 20px 0; }
+        .nav-section-title { padding: 0 25px; font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px; opacity: 0.5; margin-bottom: 10px; }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover { background: rgba(255,255,255,0.1); }
+        .nav-item.active { background: rgba(255,255,255,0.15); border-left-color: var(--primary); }
+        .nav-item.completed .nav-number { background: var(--success); }
+
+        .nav-number {
+            width: 28px;
+            height: 28px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .nav-title { font-size: 0.95em; flex: 1; }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 320px;
+            padding: 40px 60px;
+            max-width: 1000px;
+        }
+
+        .module-header { margin-bottom: 40px; }
+        .module-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .module-title { font-size: 2.4em; color: var(--secondary); margin-bottom: 15px; }
+        .module-description { font-size: 1.1em; color: var(--gray-500); max-width: 600px; }
+
+        /* Content Cards */
+        .content-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+        }
+        .content-card h3 { color: var(--secondary); margin-bottom: 20px; font-size: 1.4em; }
+        .content-card h4 { color: var(--accent); margin: 25px 0 12px; font-size: 1.1em; }
+        .content-card p { margin-bottom: 15px; color: var(--gray-700); }
+        .content-card ul, .content-card ol { margin: 15px 0 15px 25px; color: var(--gray-700); }
+        .content-card li { margin-bottom: 10px; }
+
+        /* Info Boxes */
+        .info-box { padding: 20px 25px; border-radius: var(--radius); margin: 20px 0; }
+        .info-box.tip { background: #E8F5E9; border-left: 4px solid var(--success); }
+        .info-box.warning { background: #FFF8E1; border-left: 4px solid var(--warning); }
+        .info-box.important { background: #FFEBEE; border-left: 4px solid var(--primary); }
+        .info-box.example { background: #E3F2FD; border-left: 4px solid var(--accent); }
+        .info-box-title { font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+
+        /* Tables */
+        .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .data-table th { background: var(--secondary); color: white; padding: 14px 18px; text-align: left; font-weight: 600; }
+        .data-table td { padding: 14px 18px; border-bottom: 1px solid var(--gray-200); }
+        .data-table tr:hover { background: var(--gray-100); }
+
+        /* Quiz Section */
+        .quiz-container {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%);
+            color: white;
+            border-radius: var(--radius);
+            padding: 35px;
+            margin: 30px 0;
+        }
+        .quiz-container h3 { color: white; margin-bottom: 25px; }
+        .quiz-question { margin-bottom: 30px; }
+        .quiz-question-text { font-size: 1.1em; margin-bottom: 15px; font-weight: 500; }
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+        .quiz-option {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .quiz-option:hover { background: rgba(255,255,255,0.2); }
+        .quiz-option.selected { border-color: var(--warning); background: rgba(255,255,255,0.15); }
+        .quiz-option.correct { border-color: var(--success); background: rgba(42, 157, 143, 0.3); }
+        .quiz-option.incorrect { border-color: var(--primary); background: rgba(230, 57, 70, 0.3); }
+        .quiz-feedback { margin-top: 15px; padding: 15px; border-radius: 8px; display: none; }
+        .quiz-feedback.show { display: block; }
+        .quiz-feedback.correct { background: rgba(42, 157, 143, 0.2); }
+        .quiz-feedback.incorrect { background: rgba(230, 57, 70, 0.2); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .btn-secondary { background: var(--secondary); color: white; }
+        .btn-outline { background: transparent; border: 2px solid var(--secondary); color: var(--secondary); }
+        .btn-outline:hover { background: var(--secondary); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-group { display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap; }
+
+        /* Assignment Box */
+        .assignment-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: var(--radius);
+            padding: 35px;
+            margin: 30px 0;
+        }
+        .assignment-box h3 { color: white; margin-bottom: 15px; }
+        .assignment-steps { background: rgba(255,255,255,0.1); border-radius: 8px; padding: 20px 25px; margin: 20px 0; }
+        .assignment-steps ol { margin: 0; padding-left: 20px; }
+        .assignment-steps li { margin-bottom: 10px; }
+
+        /* Cheat Sheet */
+        .cheat-sheet { background: var(--dark); color: white; border-radius: var(--radius); padding: 30px; margin: 25px 0; }
+        .cheat-sheet h4 { color: var(--warning); margin-bottom: 20px; }
+        .cheat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .cheat-item { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; color: #fff; }
+        .cheat-item ul { color: #fff; margin-left: 15px; margin-top: 10px; }
+        .cheat-item li { color: #fff; }
+        .cheat-item p { color: rgba(255,255,255,0.9); }
+        .cheat-item strong { color: #fff; }
+        .cheat-item code { display: block; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 4px; margin-top: 8px; font-family: 'Monaco', 'Consolas', monospace; font-size: 0.9em; color: #fff; }
+        .cheat-sheet p { color: #fff; }
+        .cheat-sheet > div { color: #fff; }
+
+        /* Code blocks */
+        code { background: var(--gray-200); padding: 3px 8px; border-radius: 4px; font-family: 'Monaco', 'Consolas', monospace; font-size: 0.9em; }
+        pre { background: var(--dark); color: var(--light); padding: 20px; border-radius: 8px; overflow-x: auto; margin: 15px 0; }
+        pre code { background: none; padding: 0; color: inherit; }
+
+        /* Module navigation */
+        .module-nav { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 30px; border-top: 2px solid var(--gray-200); flex-wrap: wrap; gap: 15px; }
+
+        /* Hide all modules by default */
+        .module { display: none; }
+        .module.active { display: block; }
+
+        /* Expandable sections */
+        .expandable { border: 1px solid var(--gray-200); border-radius: 8px; margin: 15px 0; }
+        .expandable-header { padding: 15px 20px; background: var(--gray-100); cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+        .expandable-header:hover { background: var(--gray-200); }
+        .expandable-content { padding: 20px; display: none; }
+        .expandable.open .expandable-content { display: block; }
+        .expandable-icon { transition: transform 0.3s; }
+        .expandable.open .expandable-icon { transform: rotate(180deg); }
+
+        /* Step boxes for tutorials */
+        .step-box { background: white; border: 2px solid var(--accent); border-radius: var(--radius); padding: 25px; margin: 20px 0; position: relative; }
+        .step-number { position: absolute; top: -15px; left: 20px; background: var(--accent); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+        .step-box h4 { color: var(--accent); margin-bottom: 15px; padding-left: 20px; }
+        .step-box p, .step-box ul { margin-left: 0; }
+
+        /* Tracker mockup */
+        .tracker-mockup { background: white; border: 1px solid var(--gray-300); border-radius: 8px; overflow: hidden; margin: 20px 0; box-shadow: var(--shadow); }
+        .tracker-tabs { display: flex; background: var(--gray-200); }
+        .tracker-tab { padding: 12px 20px; font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; }
+        .tracker-tab.active { background: white; border-bottom-color: var(--success); }
+        .tracker-header { display: grid; background: var(--secondary); color: white; font-weight: 600; font-size: 0.85em; }
+        .tracker-header div { padding: 12px 15px; border-right: 1px solid rgba(255,255,255,0.2); }
+        .tracker-row { display: grid; border-bottom: 1px solid var(--gray-200); font-size: 0.9em; }
+        .tracker-row div { padding: 12px 15px; border-right: 1px solid var(--gray-200); }
+        .tracker-row:hover { background: var(--gray-100); }
+
+        /* Print styles */
+        .print-btn { background: var(--gray-700); color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9em; margin-top: 15px; }
+        .print-btn:hover { background: var(--dark); }
+
+        @media print {
+            .sidebar, .module-nav, .btn, .print-btn, .quiz-container { display: none !important; }
+            .main-content { margin-left: 0; padding: 20px; max-width: 100%; }
+            .content-card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+            .cheat-sheet { break-inside: avoid; }
+        }
+
+        /* Password Screen */
+        .password-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .password-container {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 420px;
+            width: 90%;
+        }
+        .password-logo { margin-bottom: 30px; }
+        .password-logo-img { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 15px; display: block; object-fit: cover; }
+        .password-logo h1 { color: var(--secondary); font-size: 1.8em; margin-bottom: 5px; }
+        .password-logo p { color: var(--gray-500); font-size: 1em; }
+        .password-form { margin-bottom: 20px; }
+        .password-form label { display: block; text-align: left; font-weight: 600; margin-bottom: 8px; color: var(--secondary); }
+        .password-form input { width: 100%; padding: 14px 18px; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1em; margin-bottom: 15px; transition: border-color 0.2s; }
+        .password-form input:focus { outline: none; border-color: var(--primary); }
+        .password-form button { width: 100%; }
+        .password-error { color: var(--primary); font-size: 0.9em; margin-top: 10px; display: none; }
+        .password-hint { color: var(--gray-500); font-size: 0.85em; }
+
+        /* Certificate */
+        .certificate-container { display: none; }
+        .certificate {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 8px solid var(--secondary);
+            border-radius: 20px;
+            padding: 60px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .certificate h1 { color: var(--secondary); font-size: 2.5em; margin-bottom: 10px; }
+        .certificate .subtitle { color: var(--accent); font-size: 1.2em; margin-bottom: 40px; }
+        .certificate .name { font-size: 2em; color: var(--dark); font-family: 'Fraunces', serif; margin: 30px 0; border-bottom: 3px solid var(--secondary); display: inline-block; padding-bottom: 10px; }
+        .certificate .achievement { font-size: 1.1em; color: var(--gray-700); margin: 20px 0; }
+        .certificate .date { color: var(--gray-500); margin-top: 40px; }
+        .certificate .instructions { background: var(--gray-100); padding: 20px; border-radius: 10px; margin-top: 30px; text-align: left; font-size: 0.95em; }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .mobile-toggle { display: block; }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; padding: 80px 20px 40px; }
+            .module-title { font-size: 1.8em; }
+            .content-card { padding: 25px; }
+            .data-table { font-size: 0.85em; }
+            .data-table th, .data-table td { padding: 10px 12px; }
+            .btn { padding: 12px 20px; font-size: 0.9em; }
+            .tracker-header, .tracker-row { font-size: 0.8em; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Password Screen -->
+    <div id="passwordScreen" class="password-screen">
+        <div class="password-container">
+            <div class="password-logo">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6CAYAAACI7Fo9AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3LYCwAAIABJREFUeJzt3Xd4lFX2wPHvnZkkk957SEgIJCF0pHdEQEBBRMSua1t7W8u6urq/XXddd+26q2tZdV0LoCIgCiqCIL333iGEhPSezGTq+/tj" alt="Job Wingman" class="password-logo-img" onerror="this.style.display='none'">
+                <h1>Job Wingman Academy</h1>
+                <p>Application Specialist Training</p>
+            </div>
+            <div class="password-form">
+                <label for="passwordInput">Enter Access Code</label>
+                <input type="password" id="passwordInput" placeholder="Enter code..." autocomplete="off">
+                <button id="passwordSubmit" class="btn btn-primary" onclick="checkPassword()">Access Training →</button>
+                <p id="passwordError" class="password-error"></p>
+            </div>
+            <p class="password-hint">Contact your manager for the access code</p>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-toggle" onclick="toggleSidebar()">☰ Menu</button>
+
+    <div class="app-container" id="appContainer" style="display: none;">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="data:image/png;base64," alt="Job Wingman" class="sidebar-logo-img" onerror="this.outerHTML='<div style=&quot;width:42px;height:42px;background:var(--brand-teal);border-radius:50%;display:flex;align-items:center;justify-content:center;&quot;>🎯</div>'">
+                    <span class="logo-text">Job Wingman</span>
+                </div>
+                <div class="logo-subtitle">Academy</div>
+            </div>
+
+            <div class="progress-section">
+                <div class="progress-label">Your Progress</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <div class="progress-text"><span id="progressPercent">0</span>% Complete</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Training Modules</div>
+                <div class="nav-item active" data-module="1"><div class="nav-number">1</div><div class="nav-title">Welcome to Job Wingman</div></div>
+                <div class="nav-item" data-module="2"><div class="nav-number">2</div><div class="nav-title">Understanding Client Profiles</div></div>
+                <div class="nav-item" data-module="3"><div class="nav-number">3</div><div class="nav-title">The US Job Market</div></div>
+                <div class="nav-item" data-module="4"><div class="nav-number">4</div><div class="nav-title">The Canadian Job Market</div></div>
+                <div class="nav-item" data-module="5"><div class="nav-number">5</div><div class="nav-title">The UK Job Market</div></div>
+                <div class="nav-item" data-module="6"><div class="nav-number">6</div><div class="nav-title">Work Authorization & Visas</div></div>
+                <div class="nav-item" data-module="7"><div class="nav-number">7</div><div class="nav-title">Job Search Mastery</div></div>
+                <div class="nav-item" data-module="8"><div class="nav-number">8</div><div class="nav-title">Using Simplify</div></div>
+                <div class="nav-item" data-module="9"><div class="nav-number">9</div><div class="nav-title">Understanding Roles & JDs</div></div>
+                <div class="nav-item" data-module="10"><div class="nav-number">10</div><div class="nav-title">Company Research</div></div>
+                <div class="nav-item" data-module="11"><div class="nav-number">11</div><div class="nav-title">The Job Search Tracker</div></div>
+                <div class="nav-item" data-module="12"><div class="nav-number">12</div><div class="nav-title">Quality Control</div></div>
+                <div class="nav-item" data-module="13"><div class="nav-number">13</div><div class="nav-title">Final Assessment</div></div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- MODULE 1: Welcome -->
+            <div class="module active" id="module-1">
+                <div class="module-header">
+                    <span class="module-badge">Module 1</span>
+                    <h1 class="module-title">Welcome to Job Wingman</h1>
+                    <p class="module-description">Understanding our mission, your role, and how we help clients land their dream jobs.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>What We Do</h3>
+                    <p>Job Wingman is a career services company that helps job seekers navigate the overwhelming process of finding and applying for jobs. We're not recruiters — we work <strong>for</strong> the candidate, not the employer.</p>
+                    
+                    <h4>Our Core Services</h4>
+                    <ul>
+                        <li><strong>Resume Optimization:</strong> Tailoring resumes to pass ATS systems and catch recruiter attention</li>
+                        <li><strong>Job Search & Applications:</strong> Finding and applying to 400+ jobs monthly per client</li>
+                        <li><strong>Interview Preparation:</strong> Helping clients prepare for interviews with research and coaching</li>
+                    </ul>
+
+                    <div class="info-box tip">
+                        <div class="info-box-title">💡 Why We Exist</div>
+                        <p>The average job seeker spends 11 hours per week on their job search. Many give up before finding the right role. We take that burden off their shoulders so they can focus on interviewing and performing well.</p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>The Client Journey</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Stage</th><th>What Happens</th><th>Who's Involved</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>1. Onboarding</strong></td><td>Client signs up, completes intake form, has discovery call</td><td>Operations team</td></tr>
+                            <tr><td><strong>2. Resume Work</strong></td><td>Resume is optimized based on client's goals</td><td>Resume writers</td></tr>
+                            <tr><td><strong>3. Job Search</strong></td><td>Finding roles that match client preferences</td><td>Application Specialists (You!)</td></tr>
+                            <tr><td><strong>4. Applications</strong></td><td>Submitting applications via Simplify</td><td>Application Specialists (You!)</td></tr>
+                            <tr><td><strong>5. Interview Support</strong></td><td>Client gets interviews, we help them prepare</td><td>Interview coaches</td></tr>
+                            <tr><td><strong>6. Success!</strong></td><td>Client lands the job 🎉</td><td>Everyone celebrates</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-card">
+                    <h3>Your Role as an Application Specialist</h3>
+                    <p>You are the engine of Job Wingman. Without quality job matches, nothing else matters.</p>
+
+                    <h4>Your Responsibilities</h4>
+                    <ol>
+                        <li><strong>Find jobs</strong> that genuinely match client preferences (title, location, salary, work mode, industry)</li>
+                        <li><strong>Verify fit</strong> — read job descriptions, don't just match keywords</li>
+                        <li><strong>Log accurately</strong> — maintain the job search tracker with complete, accurate information</li>
+                        <li><strong>Submit applications</strong> — use Simplify to apply efficiently</li>
+                        <li><strong>Meet quotas</strong> — each client expects a certain number of quality applications</li>
+                    </ol>
+
+                    <div class="info-box important">
+                        <div class="info-box-title">⚠️ Quality Over Quantity</div>
+                        <p>Applying to 100 wrong jobs is worse than applying to 20 right ones. Clients trust us to understand what they want. A bad match wastes their time and damages trust.</p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>Getting Help When You're Stuck</h3>
+                    <p>Everyone gets stuck sometimes. Here's what to do:</p>
+                    
+                    <div class="info-box tip">
+                        <div class="info-box-title">📞 Escalation Protocol</div>
+                        <p><strong>When you're stuck, reach out to your Ops Lead/Manager.</strong></p>
+                        <p>You'll be told who this is during onboarding. They're there to help with:</p>
+                        <ul>
+                            <li>Unclear client preferences</li>
+                            <li>Edge cases you're not sure how to handle</li>
+                            <li>Technical issues with tools</li>
+                            <li>Questions about process or expectations</li>
+                        </ul>
+                        <p style="margin-top: 15px;">Don't spin your wheels for hours — ask for help early!</p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>Our Quality Standards</h3>
+                    <p>Every job you add to a client's tracker must meet these criteria:</p>
+                    <ul>
+                        <li>✅ Title matches or is clearly relevant to client's goals</li>
+                        <li>✅ Location matches preferences (including remote/hybrid requirements)</li>
+                        <li>✅ Salary meets or exceeds minimum (if disclosed)</li>
+                        <li>✅ Posted within the last 7-14 days (fresh postings only)</li>
+                        <li>✅ Skills required align with client's background</li>
+                        <li>✅ Seniority level is appropriate (not too junior/senior)</li>
+                    </ul>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>📝 Knowledge Check</h3>
+                    <div class="quiz-question" data-correct="b">
+                        <div class="quiz-question-text">1. What is Job Wingman's primary relationship with clients?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">We recruit candidates for employers</div>
+                            <div class="quiz-option" data-value="b">We work for the job seeker, helping them find and apply to jobs</div>
+                            <div class="quiz-option" data-value="c">We're a job board that lists openings</div>
+                            <div class="quiz-option" data-value="d">We write resumes only</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question" data-correct="c">
+                        <div class="quiz-question-text">2. Which is MORE important in your role?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">Applying to as many jobs as possible, regardless of fit</div>
+                            <div class="quiz-option" data-value="b">Only applying to jobs at famous companies</div>
+                            <div class="quiz-option" data-value="c">Finding quality matches that genuinely fit client preferences</div>
+                            <div class="quiz-option" data-value="d">Finishing your tasks as fast as possible</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <button class="btn btn-success" onclick="checkQuiz(1)">Check Answers</button>
+                </div>
+
+                <div class="module-nav">
+                    <div></div>
+                    <button class="btn btn-primary" onclick="completeAndNext(1)">Complete & Continue →</button>
+                </div>
+            </div>
+
+            <!-- MODULE 2: Understanding Client Profiles -->
+            <div class="module" id="module-2">
+                <div class="module-header">
+                    <span class="module-badge">Module 2</span>
+                    <h1 class="module-title">Understanding Client Profiles</h1>
+                    <p class="module-description">Learn to decode client preferences and understand what they're really looking for.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>The Client Intake Form</h3>
+                    <p>Every client completes an intake form that captures their job search preferences. Your job is to interpret this accurately — not just read it, but understand it.</p>
+
+                    <h4>Key Fields You'll See</h4>
+                    <table class="data-table">
+                        <thead><tr><th>Field</th><th>What It Means</th><th>Watch Out For</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Target Titles</strong></td><td>Job titles they want</td><td>Consider related titles (Data Analyst ≈ Business Analyst)</td></tr>
+                            <tr><td><strong>Location</strong></td><td>Where they can work</td><td>Remote preference matters — don't send on-site if they want remote</td></tr>
+                            <tr><td><strong>Salary Minimum</strong></td><td>Floor, not target</td><td>Never go below this number, even for "great opportunities"</td></tr>
+                            <tr><td><strong>Work Mode</strong></td><td>Remote / Hybrid / On-site</td><td>"Remote preferred" means hybrid OK, not on-site</td></tr>
+                            <tr><td><strong>Visa Status</strong></td><td>Work authorization needs</td><td>If they need sponsorship, this becomes a critical filter</td></tr>
+                            <tr><td><strong>Industries</strong></td><td>Sectors they prefer or avoid</td><td>Some clients exclude certain industries (e.g., defense, tobacco)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-card">
+                    <h3>Must-Haves vs. Nice-to-Haves</h3>
+                    <div class="info-box important">
+                        <div class="info-box-title">🚫 Hard Requirements (Never Violate)</div>
+                        <ul>
+                            <li>Minimum salary</li>
+                            <li>Work authorization constraints (if they need sponsorship)</li>
+                            <li>Location restrictions (if they can't relocate)</li>
+                            <li>Industries they explicitly exclude</li>
+                        </ul>
+                    </div>
+                    <div class="info-box tip">
+                        <div class="info-box-title">✅ Flexible (Use Judgment)</div>
+                        <ul>
+                            <li>Exact job title (related titles often OK)</li>
+                            <li>Company size preference</li>
+                            <li>"Preferred" locations (vs. "only" locations)</li>
+                            <li>Specific tools/technologies (transferable skills count)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>Common Client Types</h3>
+                    
+                    <div class="expandable open">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <span>🎓 New Grad / Career Starter</span>
+                            <span class="expandable-icon">▼</span>
+                        </div>
+                        <div class="expandable-content">
+                            <p><strong>Characteristics:</strong> Limited experience, flexible on title, may need visa sponsorship (OPT)</p>
+                            <p><strong>What they need:</strong> Entry-level roles, companies that hire new grads, structured training programs</p>
+                            <p><strong>Watch out for:</strong> Roles requiring 3+ years experience, senior titles, unrealistic salary expectations</p>
+                        </div>
+                    </div>
+
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <span>🔄 Career Changer</span>
+                            <span class="expandable-icon">▼</span>
+                        </div>
+                        <div class="expandable-content">
+                            <p><strong>Characteristics:</strong> Experienced but switching fields, transferable skills, may accept lower title initially</p>
+                            <p><strong>What they need:</strong> Roles that value transferable skills, industries open to non-traditional backgrounds</p>
+                            <p><strong>Watch out for:</strong> Over-indexing on their past field, roles requiring deep domain expertise</p>
+                        </div>
+                    </div>
+
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <span>📈 Level-Up Seeker</span>
+                            <span class="expandable-icon">▼</span>
+                        </div>
+                        <div class="expandable-content">
+                            <p><strong>Characteristics:</strong> Currently employed, looking for promotion-level role, specific about title/salary</p>
+                            <p><strong>What they need:</strong> Senior roles, salary increases, growth opportunities</p>
+                            <p><strong>Watch out for:</strong> Lateral moves, title downgrades, roles with less scope than current</p>
+                        </div>
+                    </div>
+
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <span>🌍 International / Visa-Dependent</span>
+                            <span class="expandable-icon">▼</span>
+                        </div>
+                        <div class="expandable-content">
+                            <p><strong>Characteristics:</strong> Needs work authorization support, time-sensitive (OPT expiration, H1B lottery)</p>
+                            <p><strong>What they need:</strong> Companies with sponsorship history, roles that qualify as "specialty occupation"</p>
+                            <p><strong>Watch out for:</strong> Small companies unlikely to sponsor, contract roles, companies with no sponsorship history</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>Reading Between the Lines</h3>
+                    <table class="data-table">
+                        <thead><tr><th>Client Says</th><th>Often Means</th></tr></thead>
+                        <tbody>
+                            <tr><td>"Open to opportunities"</td><td>Uncertain about direction — ask clarifying questions</td></tr>
+                            <tr><td>"Remote preferred"</td><td>Remote > Hybrid > On-site (in that order)</td></tr>
+                            <tr><td>"Flexible on salary"</td><td>Has a minimum in mind but didn't state it — clarify!</td></tr>
+                            <tr><td>"Looking for growth"</td><td>Current role is stagnant, wants promotion path</td></tr>
+                            <tr><td>"Work-life balance important"</td><td>Avoid startups, demanding industries, 24/7 cultures</td></tr>
+                            <tr><td>"Mission-driven companies"</td><td>Nonprofits, social enterprises, B-corps — NOT random tech companies</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="module-nav">
+                    <button class="btn btn-outline" onclick="goToModule(1)">← Previous</button>
+                    <button class="btn btn-primary" onclick="completeAndNext(2)">Complete & Continue →</button>
+                </div>
+            </div>
+
+            <!-- MODULE 3: US Job Market -->
+            <div class="module" id="module-3">
+                <div class="module-header">
+                    <span class="module-badge">Module 3</span>
+                    <h1 class="module-title">The US Job Market</h1>
+                    <p class="module-description">Understanding regional differences, salary norms, and key platforms in the United States.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>Major Job Markets</h3>
+                    <table class="data-table">
+                        <thead><tr><th>Region</th><th>Key Industries</th><th>Salary Level</th><th>Remote Culture</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>San Francisco Bay Area</strong></td><td>Tech, Startups, Biotech, VC</td><td>Very High (30-50% above national)</td><td>Very remote-friendly</td></tr>
+                            <tr><td><strong>New York City</strong></td><td>Finance, Media, Advertising, Fashion</td><td>Very High</td><td>Mixed (finance less remote)</td></tr>
+                            <tr><td><strong>Seattle</strong></td><td>Tech (Amazon, Microsoft), Cloud</td><td>Very High</td><td>Remote-friendly</td></tr>
+                            <tr><td><strong>Austin</strong></td><td>Tech, Startups (emerging hub)</td><td>High (but lower than SF)</td><td>Very remote-friendly</td></tr>
+                            <tr><td><strong>Houston</strong></td><td>Energy, Oil & Gas, Healthcare</td><td>Moderate-High</td><td>Mixed</td></tr>
+                            <tr><td><strong>Atlanta</strong></td><td>Logistics, Fintech, Entertainment</td><td>Moderate</td><td>Growing remote presence</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-card">
+                    <h3>Salary Expectations by Role (US)</h3>
+                    <p>These are rough ranges for mid-level roles. Entry-level is typically 20-30% lower, senior 30-50% higher.</p>
+                    <table class="data-table">
+                        <thead><tr><th>Role</th><th>National Average</th><th>SF/NYC (High COL)</th><th>Texas/Midwest</th></tr></thead>
+                        <tbody>
+                            <tr><td>Data Analyst</td><td>$65K - $85K</td><td>$85K - $120K</td><td>$55K - $75K</td></tr>
+                            <tr><td>Software Engineer</td><td>$90K - $130K</td><td>$130K - $200K+</td><td>$75K - $110K</td></tr>
+                            <tr><td>Product Manager</td><td>$100K - $140K</td><td>$140K - $200K+</td><td>$85K - $120K</td></tr>
+                            <tr><td>Marketing Manager</td><td>$70K - $100K</td><td>$90K - $140K</td><td>$60K - $85K</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-card">
+                    <h3>Key Job Platforms (US)</h3>
+                    <table class="data-table">
+                        <thead><tr><th>Platform</th><th>Best For</th><th>Link</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>LinkedIn</strong></td><td>All roles, networking</td><td><a href="https://linkedin.com/jobs" target="_blank">linkedin.com/jobs</a></td></tr>
+                            <tr><td><strong>Indeed</strong></td><td>Volume, all industries</td><td><a href="https://indeed.com" target="_blank">indeed.com</a></td></tr>
+                            <tr><td><strong>Glassdoor</strong></td><td>Salary research + jobs</td><td><a href="https://glassdoor.com" target="_blank">glassdoor.com</a></td></tr>
+                            <tr><td><strong>Wellfound (AngelList)</strong></td><td>Startups</td><td><a href="https://wellfound.com" target="_blank">wellfound.com</a></td></tr>
+                            <tr><td><strong>BuiltIn</strong></td><td>Tech roles by city</td><td><a href="https://builtin.com" target="_blank">builtin.com</a></td></tr>
+                            <tr><td><strong>Idealist</strong></td><td>Nonprofits, social impact</td><td><a href="https://idealist.org" target="_blank">idealist.org</a></td></tr>
+                            <tr><td><strong>ZipRecruiter</strong></td><td>Wide variety of roles</td><td><a href="https://ziprecruiter.com" target="_blank">ziprecruiter.com</a></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-card">
+                    <h3>Remote Work Landscape</h3>
+                    <ul>
+                        <li><strong>Fully Remote:</strong> Work from anywhere, no office requirement. May be US-only or global.</li>
+                        <li><strong>Remote-First:</strong> Company is designed around remote, but may have optional offices</li>
+                        <li><strong>Hybrid:</strong> Typically 2-3 days in office. MUST be near an office location.</li>
+                        <li><strong>Flexible:</strong> Vague term — could mean hybrid or occasional office visits</li>
+                        <li><strong>On-site:</strong> Must be physically present. No remote option.</li>
+                    </ul>
+                    <div class="info-box warning">
+                        <div class="info-box-title">⚠️ Watch for Bait-and-Switch</div>
+                        <p>Some jobs list as "remote" but are actually hybrid. Always verify in the job description. Look for "occasional office visits required" or "must be within commuting distance."</p>
+                    </div>
+                </div>
+
+                <div class="module-nav">
+                    <button class="btn btn-outline" onclick="goToModule(2)">← Previous</button>
+                    <button class="btn btn-primary" onclick="completeAndNext(3)">Complete & Continue →</button>
+                </div>
+            </div>
+
+            <!-- MODULE 4: Canadian Job Market -->
+            <div class="module" id="module-4">
+                <div class="module-header">
+                    <span class="module-badge">Module 4</span>
+                    <h1 class="module-title">The Canadian Job Market</h1>
+                    <p class="module-description">Key differences from the US, major markets, and what you need to know.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>Canada vs. US: Key Differences</h3>
+                    <table class="data-table">
+                        <thead><tr><th>Factor</th><th>Canada</th><th>US</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Currency</strong></td><td>CAD (typically 25-30% less than USD)</td><td>USD</td></tr>
+                            <tr><td><strong>Remote Culture</strong></td><td>Growing but less than US</td><td>Very established</td></tr>
+                            <tr><td><strong>Visa Process</strong></td><td>LMIA required for most work permits</td><td>H1B lottery system</td></tr>
+                            <tr><td><strong>Market Size</strong></td><td>~10% of US market</td><td>Largest job market globally</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="info-box warning">
+                        <div class="info-box-title">⚠️ Currency Alert</div>
+                        <p>Always note if salary is CAD or USD. A "$100K" job in Toronto is about $75K USD. Don't confuse clients by mixing currencies.</p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>Major Canadian Job Markets</h3>
+                    <table class="data-table">
+                        <thead><tr><th>City</th><th>Key Industries</th><th>Notes</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Toronto (GTA)</strong></td><td>Finance, Tech, Media, Healthcare</td><td>Largest market, highest salaries, most competitive</td></tr>
+                            <tr><td><strong>Vancouver</strong></td><td>Tech, Film/VFX, Gaming, Resources</td><td>Strong tech scene, very high cost of living</td></tr>
+                            <tr><td><strong>Montreal</strong></td><td>AI/ML, Gaming, Aerospace, Pharma</td><td>French often required/preferred, lower COL</td></tr>
+                            <tr><td><strong>Calgary</strong></td><td>Energy, Finance, Tech (growing)</td><td>Oil & gas hub, diversifying economy</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-card">
+                    <h3>Key Platforms (Canada)</h3>
+                    <ul>
+                        <li><strong>LinkedIn</strong> — Works the same as US, dominant platform</li>
+                        <li><strong>Indeed Canada</strong> — <a href="https://ca.indeed.com" target="_blank">ca.indeed.com</a></li>
+                        <li><strong>Job Bank</strong> — <a href="https://jobbank.gc.ca" target="_blank">jobbank.gc.ca</a> (Government job board, good for LMIA-approved jobs)</li>
+                        <li><strong>Glassdoor Canada</strong> — Salary data and reviews</li>
+                    </ul>
+                </div>
+
+                <div class="module-nav">
+                    <button class="btn btn-outline" onclick="goToModule(3)">← Previous</button>
+                    <button class="btn btn-primary" onclick="completeAndNext(4)">Complete & Continue →</button>
+                </div>
+            </div>
+
+            <!-- MODULE 5: UK Job Market -->
+            <div class="module" id="module-5">
+                <div class="module-header">
+                    <span class="module-badge">Module 5</span>
+                    <h1 class="module-title">The UK Job Market</h1>
+                    <p class="module-description">Navigating the British job market, regional differences, and visa sponsorship landscape.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>UK vs. US: Key Differences</h3>
+                    <table class="data-table">
+                        <thead><tr><th>Factor</th><th>UK</th><th>US</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Currency</strong></td><td>GBP (£) — roughly 1.25x USD</td><td>USD</td></tr>
+                            <tr><td><strong>Remote Culture</strong></td><td>More office-centric than US</td><td>More remote-friendly</td></tr>
+                            <tr><td><strong>Notice Periods</strong></td><td>1-3 months standard</td><td>2 weeks typical</td></tr>
+                            <tr><td><strong>CV vs Resume</strong></td><td>CV (can be longer, more detailed)</td><td>Resume (1-2 pages max)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-card">
+                    <h3>Major UK Job Markets</h3>
+                    <table class="data-table">
+                        <thead><tr><th>City</th><th>Key Industries</th><th>Notes</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>London</strong></td><td>Finance, Tech, Media, Professional Services</td><td>~50% of UK jobs, highest salaries, highest COL</td></tr>
+                            <tr><td><strong>Manchester</strong></td><td>Tech, Media (BBC), Finance</td><td>Growing tech hub, "Northern Powerhouse"</td></tr>
+                            <tr><td><strong>Edinburgh</strong></td><td>Finance, Tech, Government</td><td>Strong fintech presence</td></tr>
+                            <tr><td><strong>Cambridge</strong></td><td>Biotech, Tech, Research</td><td>"Silicon Fen" — university-driven innovation</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-card">
+                    <h3>Key Platforms (UK)</h3>
+                    <ul>
+                        <li><strong>LinkedIn</strong> — Universal, works same as US</li>
+                        <li><strong>Reed</strong> — <a href="https://reed.co.uk" target="_blank">reed.co.uk</a> (Largest UK job board)</li>
+                        <li><strong>Totaljobs</strong> — <a href="https://totaljobs.com" target="_blank">totaljobs.com</a></li>
+                        <li><strong>Indeed UK</strong> — <a href="https://uk.indeed.com" target="_blank">uk.indeed.com</a></li>
+                        <li><strong>Adzuna</strong> — <a href="https://adzuna.co.uk" target="_blank">adzuna.co.uk</a> (UK-focused aggregator with salary stats)</li>
+                    </ul>
+                </div>
+
+                <div class="module-nav">
+                    <button class="btn btn-outline" onclick="goToModule(4)">← Previous</button>
+                    <button class="btn btn-primary" onclick="completeAndNext(5)">Complete & Continue →</button>
+                </div>
+            </div>
+
+            <!-- MODULE 6: Work Authorization & Visas -->
+            <div class="module" id="module-6">
+                <div class="module-header">
+                    <span class="module-badge">Module 6</span>
+                    <h1 class="module-title">Work Authorization & Visa Sponsorship</h1>
+                    <p class="module-description">The critical knowledge for helping international clients find sponsoring employers.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>Why This Matters</h3>
+                    <p>Many of our clients need visa sponsorship. This is often the #1 filter that determines which jobs they can even apply to.</p>
+                    <div class="info-box important">
+                        <div class="info-box-title">⚠️ Critical Understanding</div>
+                        <p>Not every company sponsors visas. Not every role qualifies. Your job is to find the intersection of: roles that fit the client's skills + companies likely to sponsor + roles that qualify for sponsorship.</p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>🇺🇸 US Work Authorization</h3>
+                    <h4>Common Visa Types</h4>
+                    <table class="data-table">
+                        <thead><tr><th>Visa</th><th>What It Is</th><th>Key Details</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>H-1B</strong></td><td>Specialty occupation visa</td><td>Requires bachelor's degree, lottery system (March), 3+3 years</td></tr>
+                            <tr><td><strong>OPT</strong></td><td>Post-graduation work permit</td><td>12 months (+ 24 months for STEM), no lottery needed</td></tr>
+                            <tr><td><strong>STEM OPT</strong></td><td>OPT extension for STEM graduates</td><td>E-Verify employer required, 24 extra months</td></tr>
+                            <tr><td><strong>L-1</strong></td><td>Intra-company transfer</td><td>For employees transferring within same company</td></tr>
+                            <tr><td><strong>Green Card</strong></td><td>Permanent residency</td><td>Long process, employer-sponsored (EB-2, EB-3) or family</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h4>How to Research Sponsorship History</h4>
+                    <ol>
+                        <li><strong>MyVisaJobs.com</strong> — <a href="https://www.myvisajobs.com/Reports/2024-H1B-Visa-Sponsor.aspx" target="_blank">Search company H-1B filings history</a></li>
+                        <li><strong>H1Bdata.info</strong> — <a href="https://h1bdata.info" target="_blank">Database of H-1B applications</a></li>
+                        <li><strong>Company careers page</strong> — Some explicitly state sponsorship policy</li>
+                        <li><strong>Job description</strong> — Look for "must be authorized to work" (usually means NO sponsorship)</li>
+                    </ol>
+                </div>
+
+                <div class="cheat-sheet">
+                    <h4>🔍 Signals: Will They Sponsor?</h4>
+                    <div class="cheat-grid">
+                        <div class="cheat-item">
+                            <strong>✅ Likely to Sponsor</strong>
+                            <ul>
+                                <li>Large tech companies (FAANG, etc.)</li>
+                                <li>Big 4 consulting firms</li>
+                                <li>Major banks & financial institutions</li>
+                                <li>Companies with H-1B history</li>
+                                <li>University/research positions</li>
+                            </ul>
+                        </div>
+                        <div class="cheat-item">
+                            <strong>❌ Unlikely to Sponsor</strong>
+                            <ul>
+                                <li>Small companies (&lt;50 employees)</li>
+                                <li>Startups (unless well-funded)</li>
+                                <li>Government contractors</li>
+                                <li>Companies with no H-1B history</li>
+                                <li>Roles saying "must be authorized"</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="print-btn" onclick="window.print()">🖨️ Print This Cheat Sheet</button>
+                </div>
+
+                <div class="content-card">
+                    <h3>🇬🇧 UK Work Authorization</h3>
+                    <h4>Skilled Worker Visa Requirements</h4>
+                    <ol>
+                        <li><strong>Licensed Sponsor:</strong> Employer must hold a valid sponsor license</li>
+                        <li><strong>Certificate of Sponsorship:</strong> Employer issues CoS for specific role</li>
+                        <li><strong>Salary Threshold:</strong> Minimum £38,700/year (or lower for certain roles)</li>
+                    </ol>
+
+                    <div class="info-box example">
+                        <div class="info-box-title">🔍 How to Check UK Sponsor Status</div>
+                        <ol>
+                            <li>Go to: <a href="https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers" target="_blank">gov.uk Register of Licensed Sponsors</a></li>
+                            <li>Download the current sponsor list (Excel file)</li>
+                            <li>Search for the company name</li>
+                            <li>If listed with "Worker" license = they CAN sponsor</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="module-nav">
+                    <button class="btn btn-outline" onclick="goToModule(5)">← Previous</button>
+                    <button class="btn btn-primary" onclick="completeAndNext(6)">Complete & Continue →</button>
+                </div>
+            </div>
+
+            <!-- MODULE 7: Job Search Mastery -->
+            <div class="module" id="module-7">
+                <div class="module-header">
+                    <span class="module-badge">Module 7</span>
+                    <h1 class="module-title">Job Search Mastery</h1>
+                    <p class="module-description">Advanced search techniques, Boolean operators, and platform-specific strategies.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>Boolean Search Fundamentals</h3>
+                    <p>Boolean operators let you create precise searches that find exactly what you need.</p>
+                </div>
+
+                <div class="cheat-sheet">
+                    <h4>🔧 Core Operators</h4>
+                    <div class="cheat-grid">
+                        <div class="cheat-item">
+                            <strong>Quotes ""</strong>
+                            <p>Exact phrase match</p>
+                            <code>"data analyst"</code>
+                        </div>
+                        <div class="cheat-item">
+                            <strong>OR</strong>
+                            <p>Either term</p>
+                            <code>analyst OR specialist</code>
+                        </div>
+                        <div class="cheat-item">
+                            <strong>AND</strong>
+                            <p>Both terms required</p>
+                            <code>Python AND SQL</code>
+                        </div>
+                        <div class="cheat-item">
+                            <strong>NOT / - (minus)</strong>
+                            <p>Exclude term</p>
+                            <code>analyst -senior</code>
+                        </div>
+                        <div class="cheat-item">
+                            <strong>Parentheses ()</strong>
+                            <p>Group terms</p>
+                            <code>(data OR business) analyst</code>
+                        </div>
+                        <div class="cheat-item">
+                            <strong>Wildcard *</strong>
+                            <p>Partial match</p>
+                            <code>analy*</code>
+                        </div>
+                    </div>
+                    <button class="print-btn" onclick="window.print()">🖨️ Print This Cheat Sheet</button>
+                </div>
+
+                <div class="content-card">
+                    <h3>Building Effective Search Strings</h3>
+                    <h4>Formula for Success</h4>
+                    <pre><code>[Title variations] AND [Key skills] NOT [Exclusions] AND [Location/Remote]</code></pre>
+
+                    <div class="info-box example">
+                        <div class="info-box-title">📝 Example Search String</div>
+                        <code style="display: block; padding: 15px; background: #1a1a2e; border-radius: 6px; color: #fff; margin-top: 10px;">
+                            ("data analyst" OR "business analyst") AND (SQL OR Python) AND (remote OR Houston) -senior -lead -director
+                        </code>
+                    </div>
+
+                    <h4>Title Variations to Consider</h4>
+                    <table class="data-table">
+                        <thead><tr><th>Target Role</th><th>Include These Variations</th></tr></thead>
+                        <tbody>
+                            <tr><td>Data Analyst</td><td>"data analyst", "business analyst", "analytics analyst", "BI analyst", "reporting analyst"</td></tr>
+                            <tr><td>Software Engineer</td><td>"software engineer", "software developer", "SDE", "backend engineer", "full stack developer"</td></tr>
+                            <tr><td>Product Manager</td><td>"product manager", "PM", "product lead", "product owner"</td></tr>
+                            <tr><td>UX Designer</td><td>"UX designer", "UI designer", "product designer", "UX/UI designer"</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="module-nav">
+                    <button class="btn btn-outline" onclick="goToModule(6)">← Previous</button>
+                    <button class="btn btn-primary" onclick="completeAndNext(7)">Complete & Continue →</button>
+                </div>
+            </div>
+
+            <!-- MODULE 8: Using Simplify -->
+            <div class="module" id="module-8">
+                <div class="module-header">
+                    <span class="module-badge">Module 8</span>
+                    <h1 class="module-title">Using Simplify</h1>
+                    <p class="module-description">Master the autofill tool that powers your application workflow.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>What is Simplify?</h3>
+                    <p>Simplify is a browser extension that automatically fills out job applications. It saves client information and applies it across different application forms, dramatically speeding up the application process.</p>
+                    <p><strong>Extension Link:</strong> <a href="https://chromewebstore.google.com/detail/simplify-copilot-autofill/pbanhockgagggenencehbnadejlgchfc" target="_blank">Install Simplify from Chrome Web Store</a></p>
+
+                    <div class="info-box tip">
+                        <div class="info-box-title">💡 Why We Use Simplify</div>
+                        <ul>
+                            <li>Fill applications in 30 seconds instead of 10 minutes</li>
+                            <li>Consistent information across all applications</li>
+                            <li>Tracks applied jobs automatically</li>
+                            <li>Reduces errors from manual entry</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>🚨 CRITICAL: One Chrome Profile Per Client</h3>
+                    <p>Before anything else, you MUST create a separate Google Chrome profile for EACH client. This keeps everything separate and prevents mixing up client data.</p>
+
+                    <div class="info-box important">
+                        <div class="info-box-title">⚠️ Why This Matters</div>
+                        <p>If you use one profile for multiple clients, Simplify will autofill the WRONG client's information. This is a serious error that wastes applications and breaks client trust.</p>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <h4>Open Chrome Profile Manager</h4>
+                        <ul>
+                            <li>Click on your profile icon in the top-right corner of Chrome (circle with your initial or photo)</li>
+                            <li>Click "Add" or "+ Add" at the bottom of the dropdown</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <h4>Create New Profile</h4>
+                        <ul>
+                            <li>Choose "Continue without an account" (you don't need to sign into Google)</li>
+                            <li>Name the profile with the client's name: e.g., "Client - John Smith"</li>
+                            <li>Pick a color/icon so it's easy to identify</li>
+                            <li>Click "Done"</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">3</div>
+                        <h4>Install Simplify in This Profile</h4>
+                        <ul>
+                            <li>In the NEW profile window, go to <a href="https://chromewebstore.google.com/detail/simplify-copilot-autofill/pbanhockgagggenencehbnadejlgchfc" target="_blank">Simplify Extension</a></li>
+                            <li>Click "Add to Chrome"</li>
+                            <li>Pin the extension to your toolbar for easy access</li>
+                        </ul>
+                    </div>
+
+                    <div class="step-box">
+                        <div class="step-number">4</div>
+                        <h4>Set Up Client's Simplify Account</h4>
+                        <ul>
+                            <li>Click the Simplify icon → Create account or sign in</li>
+                            <li>Fill out the profile completely with the CLIENT's information</li>
+                            <li>Upload the client's current resume (PDF)</li>
+                            <li>Fill in work history, education, skills, contact info</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box warning">
+                        <div class="info-box-title">⚠️ Repeat for Every New Client</div>
+                        <p>Every time you get a new client, create a new Chrome profile and set up Simplify fresh. This takes 10 minutes upfront but prevents costly mistakes.</p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>Setting Up a Client Profile in Simplify</h3>
+                    <p>Once you have the Chrome profile ready, set up Simplify with complete information:</p>
+
+                    <table class="data-table">
+                        <thead><tr><th>Section</th><th>Information Needed</th><th>Notes</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Personal</strong></td><td>Name, email, phone, address, LinkedIn URL</td><td>Use professional email only</td></tr>
+                            <tr><td><strong>Work Authorization</strong></td><td>Visa status, sponsorship needs, work eligibility</td><td>Critical — wrong answers get applications rejected</td></tr>
+                            <tr><td><strong>Education</strong></td><td>Schools, degrees, graduation dates, GPA</td><td>Most recent first</td></tr>
+                            <tr><td><strong>Work Experience</strong></td><td>Companies, titles, dates, descriptions</td><td>Match resume exactly</td></tr>
+                            <tr><td><strong>Skills</strong></td><td>Technical skills, languages, certifications</td><td>Be comprehensive</td></tr>
+                            <tr><td><strong>Documents</strong></td><td>Resume PDF, cover letter (if used)</td><td>Keep updated versions</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-card">
+                    <h3>Application Workflow</h3>
+                    <ol>
+                        <li><strong>Open job posting</strong> — Navigate to the application page</li>
+                        <li><strong>Click Simplify icon</strong> — Extension detects the form</li>
+                        <li><strong>Click "Autofill"</strong> — Simplify fills the form</li>
+                        <li><strong>Review EVERY field</strong> — Check for errors or missed fields</li>
+                        <li><strong>Handle custom questions</strong> — Answer anything Simplify couldn't fill</li>
+                        <li><strong>Upload resume</strong> — If not auto-attached</li>
+                        <li><strong>Submit</strong> — Complete the application</li>
+                        <li><strong>Log in tracker</strong> — Record the application immediately</li>
+                    </ol>
+
+                    <div class="info-box warning">
+                        <div class="info-box-title">⚠️ Never Submit Without Reviewing</div>
+                        <p>Autofill isn't perfect. Common issues: wrong work authorization answer, missing phone format, custom questions left blank. Always review before submitting.</p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>🔄 CRITICAL: Keeping Resumes Updated Everywhere</h3>
+                    <p>When a client's resume is updated, you MUST update it in ALL these places:</p>
+
+                    <div class="info-box important">
+                        <div class="info-box-title">📋 Resume Update Checklist</div>
+                        <ul>
+                            <li>☐ <strong>Simplify</strong> — Upload new resume in profile</li>
+                            <li>☐ <strong>Glassdoor</strong> — Update resume on file</li>
+                            <li>☐ <strong>ZipRecruiter</strong> — Replace saved resume</li>
+                            <li>☐ <strong>Built In</strong> — Update profile with new resume</li>
+                            <li>☐ <strong>Indeed</strong> — If client has Indeed profile</li>
+                            <li>☐ <strong>LinkedIn</strong> — If major updates (client may do this themselves)</li>
+                            <li>☐ <strong>Any other platform</strong> where client has a profile</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>Do this IMMEDIATELY when you receive an updated resume.</strong> Using an old resume wastes applications.</p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>Common Simplify Issues & Fixes</h3>
+                    <table class="data-table">
+                        <thead><tr><th>Issue</th><th>Cause</th><th>Fix</th></tr></thead>
+                        <tbody>
+                            <tr><td>Field not filling</td><td>Non-standard form field</td><td>Fill manually</td></tr>
+                            <tr><td>Wrong answer selected</td><td>Similar but different options</td><td>Review and correct</td></tr>
+                            <tr><td>Phone format error</td><td>Form expects specific format</td><td>Reformat manually (xxx-xxx-xxxx)</td></tr>
+                            <tr><td>Dropdown not selecting</td><td>Dynamic dropdown</td><td>Type and select manually</td></tr>
+                            <tr><td>Resume not uploading</td><td>File type or size issue</td><td>Upload manually, check file format</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="module-nav">
+                    <button class="btn btn-outline" onclick="goToModule(7)">← Previous</button>
+                    <button class="btn btn-primary" onclick="completeAndNext(8)">Complete & Continue →</button>
+                </div>
+            </div>
+
+            <!-- MODULE 9: Understanding Roles & JDs -->
+            <div class="module" id="module-9">
+                <div class="module-header">
+                    <span class="module-badge">Module 9</span>
+                    <h1 class="module-title">Understanding Roles & Job Descriptions</h1>
+                    <p class="module-description">Learn to read between the lines and match clients to the right opportunities.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>Anatomy of a Job Description</h3>
+                    <table class="data-table">
+                        <thead><tr><th>Section</th><th>What It Tells You</th><th>What to Look For</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Job Title</strong></td><td>Level and function</td><td>Senior/Lead = experienced; Associate/Junior = entry</td></tr>
+                            <tr><td><strong>Company Description</strong></td><td>Culture and industry</td><td>Size, stage, mission, industry</td></tr>
+                            <tr><td><strong>Responsibilities</strong></td><td>Day-to-day work</td><td>Match to client's experience and interests</td></tr>
+                            <tr><td><strong>Requirements</strong></td><td>Must-haves</td><td>Hard skills, years of experience, education</td></tr>
+                            <tr><td><strong>Nice-to-haves</strong></td><td>Bonus qualifications</td><td>Not dealbreakers — client can still apply</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-card">
+                    <h3>Decoding Experience Requirements</h3>
+                    <table class="data-table">
+                        <thead><tr><th>Posted Requirement</th><th>Actual Expectation</th><th>Can Client Apply?</th></tr></thead>
+                        <tbody>
+                            <tr><td>0-2 years</td><td>Entry-level, new grad OK</td><td>Yes if any relevant experience</td></tr>
+                            <tr><td>3-5 years</td><td>2-4 years usually acceptable</td><td>Yes if 2+ years + strong skills</td></tr>
+                            <tr><td>5-7 years</td><td>4-6 years usually OK</td><td>Maybe if 3-4 years + impressive results</td></tr>
+                            <tr><td>7+ years</td><td>True senior/staff level</td><td>Only if client has 5+ years minimum</td></tr>
+                        </tbody>
+                    </table>
+
+                    <div class="info-box tip">
+                        <div class="info-box-title">💡 The 70% Rule</div>
+                        <p>If a client meets 70% of the requirements, they should apply. Job descriptions describe ideal candidates — companies rarely find someone who checks every box.</p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>Red Flags in Job Descriptions</h3>
+                    <ul>
+                        <li><strong>"Wear many hats" / "Startup mentality"</strong> — May mean under-resourced, long hours</li>
+                        <li><strong>"Fast-paced environment"</strong> — Can mean high pressure, quick burnout</li>
+                        <li><strong>"Like a family"</strong> — Poor boundaries, potential dysfunction</li>
+                        <li><strong>"Competitive salary"</strong> — Often means below market</li>
+                        <li><strong>Extremely long requirements list</strong> — Unrealistic expectations</li>
+                    </ul>
+                </div>
+
+                <div class="module-nav">
+                    <button class="btn btn-outline" onclick="goToModule(8)">← Previous</button>
+                    <button class="btn btn-primary" onclick="completeAndNext(9)">Complete & Continue →</button>
+                </div>
+            </div>
+
+            <!-- MODULE 10: Company Research -->
+            <div class="module" id="module-10">
+                <div class="module-header">
+                    <span class="module-badge">Module 10</span>
+                    <h1 class="module-title">Company Research</h1>
+                    <p class="module-description">Verify company fit, sponsorship likelihood, and avoid wasting client applications.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>Why Research Matters</h3>
+                    <p>Not all companies are equal. A great job title at a bad company is still a bad job. Company research helps you:</p>
+                    <ul>
+                        <li>Verify the company is legitimate</li>
+                        <li>Check if they'll sponsor visas (if client needs it)</li>
+                        <li>Identify mission-driven organizations (if client wants it)</li>
+                        <li>Avoid red flag companies</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>Identifying Mission-Driven Organizations</h3>
+                    <p>When clients want "social impact" or "mission-driven" roles, they mean specific types of organizations:</p>
+
+                    <h4>✅ Legitimate Social-Cause Organizations</h4>
+                    <ul>
+                        <li><strong>501(c)(3) Nonprofits:</strong> Search on <a href="https://www.guidestar.org" target="_blank">GuideStar/Candid</a></li>
+                        <li><strong>B-Corps:</strong> Certified benefit corporations — <a href="https://www.bcorporation.net/en-us/find-a-b-corp" target="_blank">B-Corp Directory</a></li>
+                        <li><strong>Social Enterprises:</strong> For-profit with social mission central to business</li>
+                        <li><strong>NGOs:</strong> Non-governmental organizations</li>
+                    </ul>
+
+                    <h4>❌ NOT Social-Cause (Common Mistakes)</h4>
+                    <ul>
+                        <li>Regular tech companies with a "mission statement"</li>
+                        <li>Job boards or recruiting platforms</li>
+                        <li>Companies that donate to charity but aren't mission-driven</li>
+                        <li>"Impact" investors that are primarily profit-focused</li>
+                    </ul>
+
+                    <div class="info-box important">
+                        <div class="info-box-title">⚠️ Key Distinction</div>
+                        <p>A company having a nice-sounding mission statement doesn't make it mission-driven. Google's mission is "to organize the world's information" — that doesn't make it a nonprofit.</p>
+                    </div>
+
+                    <h4>Where to Find Social-Cause Jobs</h4>
+                    <ul>
+                        <li><strong>Idealist</strong> — <a href="https://idealist.org" target="_blank">idealist.org</a></li>
+                        <li><strong>Work For Good</strong> — <a href="https://www.workforgood.org" target="_blank">workforgood.org</a></li>
+                        <li><strong>B Work</strong> — <a href="https://www.bwork.com" target="_blank">bwork.com</a> (B-Corp jobs)</li>
+                        <li><strong>80,000 Hours</strong> — <a href="https://80000hours.org/job-board/" target="_blank">80000hours.org/job-board</a></li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>Researching Visa Sponsorship History</h3>
+                    <h4>For US (H-1B)</h4>
+                    <ul>
+                        <li><a href="https://www.myvisajobs.com/Reports/2024-H1B-Visa-Sponsor.aspx" target="_blank">MyVisaJobs.com</a> — Search company H-1B filing history</li>
+                        <li><a href="https://h1bdata.info" target="_blank">H1Bdata.info</a> — Detailed salary and job title data</li>
+                    </ul>
+
+                    <h4>For UK</h4>
+                    <ul>
+                        <li><a href="https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers" target="_blank">UK Sponsor Register</a> — Download and search the Excel file</li>
+                    </ul>
+
+                    <h4>For Canada</h4>
+                    <ul>
+                        <li><a href="https://jobbank.gc.ca" target="_blank">Job Bank Canada</a> — Shows LMIA-approved postings</li>
+                    </ul>
+                </div>
+
+                <div class="cheat-sheet">
+                    <h4>✓ Quick Company Research Checklist</h4>
+                    <div style="padding: 15px;">
+                        <p>☐ Company exists and is legitimate (not a scam)</p>
+                        <p>☐ Company size/stage matches client preferences</p>
+                        <p>☐ If client needs visa: Check sponsorship history</p>
+                        <p>☐ If client wants mission-driven: Verify it's actually nonprofit/social enterprise</p>
+                        <p>☐ Glassdoor rating isn't terrible (below 3.0 = red flag)</p>
+                        <p>☐ No recent major layoffs or scandals (quick Google)</p>
+                    </div>
+                    <button class="print-btn" onclick="window.print()">🖨️ Print This Checklist</button>
+                </div>
+
+                <div class="module-nav">
+                    <button class="btn btn-outline" onclick="goToModule(9)">← Previous</button>
+                    <button class="btn btn-primary" onclick="completeAndNext(10)">Complete & Continue →</button>
+                </div>
+            </div>
+
+            <!-- MODULE 11: Job Search Tracker -->
+            <div class="module" id="module-11">
+                <div class="module-header">
+                    <span class="module-badge">Module 11</span>
+                    <h1 class="module-title">The Job Search Tracker</h1>
+                    <p class="module-description">Proper documentation keeps clients informed and our work accountable.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>Why the Tracker Matters</h3>
+                    <p>The tracker is the single source of truth for each client's job search:</p>
+                    <ul>
+                        <li><strong>Client visibility:</strong> They see exactly what we've done for them</li>
+                        <li><strong>Duplicate prevention:</strong> Avoid applying to same job twice</li>
+                        <li><strong>Progress tracking:</strong> Monitor application-to-interview conversion</li>
+                        <li><strong>Quality control:</strong> Allows review of your work</li>
+                        <li><strong>Accountability:</strong> Proves value delivered</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3>Tracker Structure</h3>
+                    <p>Each client's tracker has two tabs:</p>
+
+                    <h4>📋 Tab 1: Applications (Your Main Workspace)</h4>
+                    <p>This is where you log every job you apply to on the client's behalf.</p>
+
+                    <div class="tracker-mockup">
+                        <div class="tracker-tabs">
+                            <div class="tracker-tab active">Applications</div>
+                            <div class="tracker-tab">Client Requests</div>
+                        </div>
+                        <div class="tracker-header" style="grid-template-columns: 100px 150px 180px 130px 120px 200px 120px;">
+                            <div>Date Applied</div>
+                            <div>Company</div>
+                            <div>Job Title</div>
+                            <div>Location</div>
+                            <div>Salary</div>
+                            <div>Job Link</div>
+                            <div>Resume Used</div>
+                        </div>
+                        <div class="tracker-row" style="grid-template-columns: 100px 150px 180px 130px 120px 200px 120px;">
+                            <div>01/05/2026</div>
+                            <div>Stripe</div>
+                            <div>Data Analyst</div>
+                            <div>Remote</div>
+                            <div>$95K - $120K</div>
+                            <div style="color: var(--accent);">https://stripe.com/...</div>
+                            <div>V3_Jan2026</div>
+                        </div>
+                        <div class="tracker-row" style="grid-template-columns: 100px 150px 180px 130px 120px 200px 120px;">
+                            <div>01/05/2026</div>
+                            <div>HubSpot</div>
+                            <div>Business Analyst</div>
+                            <div>Boston, MA</div>
+                            <div>Not listed</div>
+                            <div style="color: var(--accent);">https://hubspot.com/...</div>
+                            <div>V3_Jan2026</div>
+                        </div>
+                    </div>
+
+                    <h4>📋 Tab 2: Client Requests</h4>
+                    <p>Sometimes clients find jobs themselves and want us to apply for them. Log these here.</p>
+
+                    <div class="tracker-mockup">
+                        <div class="tracker-tabs">
+                            <div class="tracker-tab">Applications</div>
+                            <div class="tracker-tab active">Client Requests</div>
+                        </div>
+                        <div class="tracker-header" style="grid-template-columns: 120px 180px 200px 1fr;">
+                            <div>Date Entered</div>
+                            <div>Company Name</div>
+                            <div>Job Title</div>
+                            <div>Job Link</div>
+                        </div>
+                        <div class="tracker-row" style="grid-template-columns: 120px 180px 200px 1fr;">
+                            <div>01/04/2026</div>
+                            <div>Notion</div>
+                            <div>Product Analyst</div>
+                            <div style="color: var(--accent);">https://notion.so/careers/...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>How to Fill Each Field</h3>
+
+                    <table class="data-table">
+                        <thead><tr><th>Field</th><th>What to Enter</th><th>Example</th><th>Common Mistakes</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Date Applied</strong></td>
+                                <td>Date you submitted the application</td>
+                                <td>01/05/2026</td>
+                                <td>Using posting date instead of apply date</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Company</strong></td>
+                                <td>Full company name</td>
+                                <td>Stripe, Inc.</td>
+                                <td>Abbreviations, typos</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Job Title</strong></td>
+                                <td>Exact title from the posting</td>
+                                <td>Data Analyst II</td>
+                                <td>Paraphrasing or shortening the title</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Location</strong></td>
+                                <td>City, State OR "Remote"</td>
+                                <td>San Francisco, CA / Remote</td>
+                                <td>Just "California" or just "Remote - US"</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Salary</strong></td>
+                                <td>Range if listed, "Not listed" if not</td>
+                                <td>$85K - $110K / Not listed</td>
+                                <td>Guessing, leaving blank</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Job Link</strong></td>
+                                <td>Full URL to the job posting</td>
+                                <td>https://careers.stripe.com/...</td>
+                                <td>Shortened links, broken links</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Resume Used</strong></td>
+                                <td>Version identifier of the resume</td>
+                                <td>V3_Jan2026</td>
+                                <td>Not tracking versions, leaving blank</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-card">
+                    <h3>Best Practices</h3>
+
+                    <h4>Do ✅</h4>
+                    <ul>
+                        <li><strong>Log immediately after applying:</strong> Don't batch at end of day — you'll forget details</li>
+                        <li><strong>Use consistent formatting:</strong> Same date format, same capitalization</li>
+                        <li><strong>Include full URLs:</strong> Not shortened links that expire</li>
+                        <li><strong>Track resume versions:</strong> Know which version was used for each application</li>
+                        <li><strong>Check the Client Requests tab:</strong> Apply to jobs they've requested FIRST</li>
+                    </ul>
+
+                    <h4>Don't ❌</h4>
+                    <ul>
+                        <li><strong>Leave fields blank:</strong> Every field should have a value</li>
+                        <li><strong>Use vague locations:</strong> "Texas" — specify city</li>
+                        <li><strong>Guess at salaries:</strong> If not listed, write "Not listed"</li>
+                        <li><strong>Use inconsistent date formats:</strong> Pick one format and stick to it</li>
+                        <li><strong>Log jobs you didn't actually apply to:</strong> That's fraud</li>
+                    </ul>
+                </div>
+
+                <div class="cheat-sheet">
+                    <h4>✓ Pre-Submission Tracker QC</h4>
+                    <div style="padding: 15px;">
+                        <p>☐ All required fields are filled (no blanks)</p>
+                        <p>☐ Dates are in consistent format (MM/DD/YYYY)</p>
+                        <p>☐ All links work and go to correct posting</p>
+                        <p>☐ Salaries meet client's minimum (or marked "Not listed")</p>
+                        <p>☐ Locations match client preferences</p>
+                        <p>☐ Resume version is noted</p>
+                        <p>☐ No duplicate entries</p>
+                        <p>☐ Client Requests tab is checked and addressed</p>
+                    </div>
+                    <button class="print-btn" onclick="window.print()">🖨️ Print This Checklist</button>
+                </div>
+
+                <div class="module-nav">
+                    <button class="btn btn-outline" onclick="goToModule(10)">← Previous</button>
+                    <button class="btn btn-primary" onclick="completeAndNext(11)">Complete & Continue →</button>
+                </div>
+            </div>
+
+            <!-- MODULE 12: Quality Control -->
+            <div class="module" id="module-12">
+                <div class="module-header">
+                    <span class="module-badge">Module 12</span>
+                    <h1 class="module-title">Quality Control & Common Mistakes</h1>
+                    <p class="module-description">The final checkpoint — learn to catch errors before they reach clients.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>The QC Mindset</h3>
+                    <p>Quality control isn't a final step — it's a continuous practice. Every job you add should pass the QC test before you move on.</p>
+                    <div class="info-box important">
+                        <div class="info-box-title">⚠️ Trust is Fragile</div>
+                        <p>One bad application can damage client trust built over weeks. A role that doesn't match their criteria tells them we're not paying attention.</p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3>Common Mistakes (And How to Avoid Them)</h3>
+
+                    <div class="expandable open">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <span>🚨 Salary Below Minimum</span>
+                            <span class="expandable-icon">▼</span>
+                        </div>
+                        <div class="expandable-content">
+                            <p><strong>Prevention:</strong> Always check salary before adding. Convert hourly to annual (hourly × 2080 = annual). When in doubt, skip the role.</p>
+                        </div>
+                    </div>
+
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <span>🚨 Wrong Work Mode</span>
+                            <span class="expandable-icon">▼</span>
+                        </div>
+                        <div class="expandable-content">
+                            <p><strong>Prevention:</strong> Read the actual job description. Look for "must be in commuting distance" = not actually remote. "Flexible" often means hybrid.</p>
+                        </div>
+                    </div>
+
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <span>🚨 Wrong Location</span>
+                            <span class="expandable-icon">▼</span>
+                        </div>
+                        <div class="expandable-content">
+                            <p><strong>Prevention:</strong> Verify "Remote" isn't "Remote - CA only". Check country — UK jobs can appear in US searches.</p>
+                        </div>
+                    </div>
+
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <span>🚨 Seniority Mismatch</span>
+                            <span class="expandable-icon">▼</span>
+                        </div>
+                        <div class="expandable-content">
+                            <p><strong>Prevention:</strong> Read experience requirements. Watch for level indicators: Associate, Junior, Senior, Lead, Director.</p>
+                        </div>
+                    </div>
+
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <span>🚨 Misunderstanding "Mission-Driven"</span>
+                            <span class="expandable-icon">▼</span>
+                        </div>
+                        <div class="expandable-content">
+                            <p><strong>Prevention:</strong> Verify 501(c)(3) status or B-Corp certification. Use dedicated platforms like Idealist. A nice mission statement ≠ mission-driven.</p>
+                        </div>
+                    </div>
+
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <span>🚨 Stale Postings</span>
+                            <span class="expandable-icon">▼</span>
+                        </div>
+                        <div class="expandable-content">
+                            <p><strong>Prevention:</strong> Always check post date. Stick to jobs posted within 7-14 days. Sort by "Most recent".</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cheat-sheet">
+                    <h4>✓ Pre-Add Quality Check (Use for EVERY Job)</h4>
+                    <div style="padding: 20px; font-size: 1.05em;">
+                        <p>☐ <strong>Title fit:</strong> Matches client's target or clearly related</p>
+                        <p>☐ <strong>Level appropriate:</strong> Entry/mid/senior matches client's experience</p>
+                        <p>☐ <strong>Location correct:</strong> Matches preferences (including remote verification)</p>
+                        <p>☐ <strong>Work mode verified:</strong> Remote/hybrid/on-site matches client needs</p>
+                        <p>☐ <strong>Salary acceptable:</strong> At or above minimum (or "Not listed" but role level suggests OK)</p>
+                        <p>☐ <strong>Skills aligned:</strong> Client has most required skills (70%+ rule)</p>
+                        <p>☐ <strong>Posting fresh:</strong> Posted within last 7-14 days</p>
+                        <p>☐ <strong>Visa check (if needed):</strong> Company sponsors or likely to</p>
+                        <p>☐ <strong>Mission check (if needed):</strong> Actually nonprofit/social enterprise</p>
+                        <p>☐ <strong>No red flags:</strong> Company is legitimate, no major concerns</p>
+                    </div>
+                    <button class="print-btn" onclick="window.print()">🖨️ Print This Checklist</button>
+                </div>
+
+                <div class="content-card">
+                    <h3>When to Skip a Job</h3>
+                    <p>It's better to apply to fewer quality roles than many questionable ones. Skip if:</p>
+                    <ul>
+                        <li>Salary is below minimum (hard stop)</li>
+                        <li>Location doesn't match and not remote</li>
+                        <li>Client clearly lacks most required skills (less than 50% match)</li>
+                        <li>Seniority is way off (5+ years difference)</li>
+                        <li>Posting is old (30+ days)</li>
+                        <li>Company has terrible reviews (Glassdoor below 3.0)</li>
+                        <li>Client needs sponsorship and company doesn't sponsor</li>
+                        <li>Something feels off — trust your judgment</li>
+                    </ul>
+                </div>
+
+                <div class="module-nav">
+                    <button class="btn btn-outline" onclick="goToModule(11)">← Previous</button>
+                    <button class="btn btn-primary" onclick="completeAndNext(12)">Complete & Continue →</button>
+                </div>
+            </div>
+
+            <!-- MODULE 13: Final Assessment -->
+            <div class="module" id="module-13">
+                <div class="module-header">
+                    <span class="module-badge">Module 13</span>
+                    <h1 class="module-title">Final Assessment</h1>
+                    <p class="module-description">Test your knowledge across all modules. Score 80% or higher to earn your certificate.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>Instructions</h3>
+                    <p>This assessment covers all training modules. You need to score <strong>80% or higher</strong> (16/20 correct) to pass and receive your certificate.</p>
+                    <ul>
+                        <li>Read each question carefully</li>
+                        <li>Select the best answer</li>
+                        <li>You can review your answers before submitting</li>
+                        <li>After passing, enter your name to generate your certificate</li>
+                    </ul>
+                </div>
+
+                <div class="quiz-container" id="finalAssessment">
+                    <h3>📝 Final Assessment (20 Questions)</h3>
+
+                    <div class="quiz-question" data-correct="b">
+                        <div class="quiz-question-text">1. What is Job Wingman's primary relationship with clients?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">We recruit candidates for employers</div>
+                            <div class="quiz-option" data-value="b">We work for the job seeker, helping them find and apply to jobs</div>
+                            <div class="quiz-option" data-value="c">We're a job board that lists openings</div>
+                            <div class="quiz-option" data-value="d">We negotiate salaries for employers</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="a">
+                        <div class="quiz-question-text">2. A client's salary minimum is $75,000. You find a great role paying $72,000. What do you do?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">Skip it — never go below the stated minimum</div>
+                            <div class="quiz-option" data-value="b">Apply anyway because it's close enough</div>
+                            <div class="quiz-option" data-value="c">Apply and tell the client about the lower salary</div>
+                            <div class="quiz-option" data-value="d">Round up to $75K in the tracker</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="c">
+                        <div class="quiz-question-text">3. Which of these is a HARD requirement that should never be violated?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">Exact job title preference</div>
+                            <div class="quiz-option" data-value="b">Company size preference</div>
+                            <div class="quiz-option" data-value="c">Industries the client explicitly excludes</div>
+                            <div class="quiz-option" data-value="d">Specific tools/technologies listed</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="d">
+                        <div class="quiz-question-text">4. A job is listed as "Remote" but the description says "must be within commuting distance of our NYC office." What is the actual work mode?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">Fully remote</div>
+                            <div class="quiz-option" data-value="b">Remote-first</div>
+                            <div class="quiz-option" data-value="c">On-site</div>
+                            <div class="quiz-option" data-value="d">Hybrid (not truly remote)</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="b">
+                        <div class="quiz-question-text">5. A Toronto job lists salary as "$90,000." How does this compare to a $90K US job?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">They are equivalent</div>
+                            <div class="quiz-option" data-value="b">The Toronto job pays less (CAD is worth less than USD)</div>
+                            <div class="quiz-option" data-value="c">The Toronto job pays more</div>
+                            <div class="quiz-option" data-value="d">Cannot be compared</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="a">
+                        <div class="quiz-question-text">6. What website should you use to check if a UK company can sponsor work visas?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">The UK government's Register of Licensed Sponsors</div>
+                            <div class="quiz-option" data-value="b">MyVisaJobs.com</div>
+                            <div class="quiz-option" data-value="c">Glassdoor</div>
+                            <div class="quiz-option" data-value="d">LinkedIn</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="c">
+                        <div class="quiz-question-text">7. Which type of company is MOST likely to sponsor H-1B visas?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">A 20-person startup</div>
+                            <div class="quiz-option" data-value="b">A local marketing agency</div>
+                            <div class="quiz-option" data-value="c">A large tech company like Google or Amazon</div>
+                            <div class="quiz-option" data-value="d">A government contractor</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="b">
+                        <div class="quiz-question-text">8. What does the Boolean operator NOT (or minus sign) do?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">Requires both terms</div>
+                            <div class="quiz-option" data-value="b">Excludes results containing that term</div>
+                            <div class="quiz-option" data-value="c">Finds exact phrase matches</div>
+                            <div class="quiz-option" data-value="d">Groups terms together</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="d">
+                        <div class="quiz-question-text">9. Why must you create a separate Chrome profile for EACH client?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">Chrome runs faster with multiple profiles</div>
+                            <div class="quiz-option" data-value="b">It's required by Simplify's terms of service</div>
+                            <div class="quiz-option" data-value="c">To organize bookmarks better</div>
+                            <div class="quiz-option" data-value="d">To prevent Simplify from autofilling the wrong client's information</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="a">
+                        <div class="quiz-question-text">10. When a client's resume is updated, where must you update it?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">Simplify, Glassdoor, ZipRecruiter, Built In, and any other platforms they use</div>
+                            <div class="quiz-option" data-value="b">Just Simplify — other platforms update automatically</div>
+                            <div class="quiz-option" data-value="c">Only LinkedIn</div>
+                            <div class="quiz-option" data-value="d">Nowhere — resumes sync automatically</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="c">
+                        <div class="quiz-question-text">11. A job requires "5+ years of experience." Your client has 3 years but excellent skills. Should they apply?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">No — they don't meet the minimum</div>
+                            <div class="quiz-option" data-value="b">No — it would be dishonest</div>
+                            <div class="quiz-option" data-value="c">Yes — experience requirements are often inflated</div>
+                            <div class="quiz-option" data-value="d">Only if it's a startup</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="b">
+                        <div class="quiz-question-text">12. What is the "70% Rule"?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">70% of applications should be to remote jobs</div>
+                            <div class="quiz-option" data-value="b">If a client meets 70% of requirements, they should apply</div>
+                            <div class="quiz-option" data-value="c">70% of jobs should be from LinkedIn</div>
+                            <div class="quiz-option" data-value="d">70% of salary should be base pay</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="d">
+                        <div class="quiz-question-text">13. A client wants "mission-driven" companies. Which is a VALID match?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">Google (mission: "organize the world's information")</div>
+                            <div class="quiz-option" data-value="b">A job board website</div>
+                            <div class="quiz-option" data-value="c">An oil company with a sustainability program</div>
+                            <div class="quiz-option" data-value="d">A 501(c)(3) nonprofit focused on education</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="a">
+                        <div class="quiz-question-text">14. What is the best platform for finding nonprofit/social impact jobs?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">Idealist.org</div>
+                            <div class="quiz-option" data-value="b">Wellfound (AngelList)</div>
+                            <div class="quiz-option" data-value="c">BuiltIn</div>
+                            <div class="quiz-option" data-value="d">ZipRecruiter</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="c">
+                        <div class="quiz-question-text">15. In the job tracker, what should you enter if a job doesn't list a salary?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">Leave it blank</div>
+                            <div class="quiz-option" data-value="b">Estimate based on similar roles</div>
+                            <div class="quiz-option" data-value="c">"Not listed"</div>
+                            <div class="quiz-option" data-value="d">$0</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="b">
+                        <div class="quiz-question-text">16. What is the "Client Requests" tab in the tracker for?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">Logging client feedback</div>
+                            <div class="quiz-option" data-value="b">Jobs the client found themselves that they want us to apply to</div>
+                            <div class="quiz-option" data-value="c">Interview requests from companies</div>
+                            <div class="quiz-option" data-value="d">Client contact information</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="a">
+                        <div class="quiz-question-text">17. How old should job postings be maximum?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">7-14 days</div>
+                            <div class="quiz-option" data-value="b">30 days</div>
+                            <div class="quiz-option" data-value="c">60 days</div>
+                            <div class="quiz-option" data-value="d">Any age is fine</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="d">
+                        <div class="quiz-question-text">18. What should you do if you're stuck and unsure how to proceed?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">Make your best guess and move on</div>
+                            <div class="quiz-option" data-value="b">Skip the client and work on another</div>
+                            <div class="quiz-option" data-value="c">Wait until the client complains</div>
+                            <div class="quiz-option" data-value="d">Reach out to your Ops Lead/Manager</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="c">
+                        <div class="quiz-question-text">19. When converting hourly pay to annual salary, what multiplier do you use?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">× 1000</div>
+                            <div class="quiz-option" data-value="b">× 1500</div>
+                            <div class="quiz-option" data-value="c">× 2080</div>
+                            <div class="quiz-option" data-value="d">× 2500</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question" data-correct="b">
+                        <div class="quiz-question-text">20. What does it typically mean when a US job posting says "must be authorized to work in the United States"?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-value="a">They will sponsor visas</div>
+                            <div class="quiz-option" data-value="b">They likely will NOT sponsor visas</div>
+                            <div class="quiz-option" data-value="c">Only US citizens can apply</div>
+                            <div class="quiz-option" data-value="d">Green card holders cannot apply</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <button class="btn btn-success" onclick="checkFinalAssessment()">Submit Assessment</button>
+                </div>
+
+                <div id="assessmentResults" style="display: none;">
+                    <div class="content-card">
+                        <h3 id="resultsTitle"></h3>
+                        <p id="resultsMessage"></p>
+                        <p><strong>Score:</strong> <span id="scoreDisplay"></span></p>
+                    </div>
+
+                    <div id="certificateSection" style="display: none;">
+                        <div class="content-card">
+                            <h3>🎉 Generate Your Certificate</h3>
+                            <p>Enter your full name as you want it to appear on your certificate:</p>
+                            <input type="text" id="certName" placeholder="Your Full Name" style="width: 100%; padding: 14px; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1.1em; margin: 15px 0;">
+                            <button class="btn btn-primary" onclick="generateCertificate()">Generate Certificate</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="certificateDisplay" class="certificate-container">
+                    <div class="certificate">
+                        <h1>Certificate of Completion</h1>
+                        <p class="subtitle">Job Wingman Academy</p>
+                        <p>This certifies that</p>
+                        <p class="name" id="certNameDisplay"></p>
+                        <p class="achievement">has successfully completed the<br><strong>Application Specialist Training Program</strong></p>
+                        <p>demonstrating proficiency in job search, application processes, client management, and quality control standards.</p>
+                        <p class="date">Completed on: <span id="certDate"></span></p>
+                        <div class="instructions">
+                            <strong>📧 Next Steps:</strong>
+                            <ol>
+                                <li>Take a screenshot or print this certificate (Ctrl/Cmd + P)</li>
+                                <li>Email it to <strong>freda@thejobwingman.com</strong></li>
+                                <li>Include "Training Complete - [Your Name]" in the subject line</li>
+                                <li>Your Ops Lead will be notified and will assign your first client</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="btn-group" style="justify-content: center; margin-top: 30px;">
+                        <button class="btn btn-primary" onclick="window.print()">🖨️ Print Certificate</button>
+                        <button class="btn btn-outline" onclick="document.getElementById('certificateDisplay').style.display='none'">Close</button>
+                    </div>
+                </div>
+
+                <div class="module-nav">
+                    <button class="btn btn-outline" onclick="goToModule(12)">← Previous</button>
+                    <div></div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Password protection
+        const CORRECT_PASSWORD = 'wingman2026';
+        
+        if (sessionStorage.getItem('jw-authenticated') === 'true') {
+            document.getElementById('passwordScreen').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'flex';
+        }
+
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            const errorEl = document.getElementById('passwordError');
+            
+            if (input === CORRECT_PASSWORD) {
+                sessionStorage.setItem('jw-authenticated', 'true');
+                document.getElementById('passwordScreen').style.display = 'none';
+                document.getElementById('appContainer').style.display = 'flex';
+            } else {
+                errorEl.textContent = 'Incorrect access code. Please try again.';
+                errorEl.style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // State management
+        let completedModules = JSON.parse(localStorage.getItem('jw-completed-modules') || '[]');
+        const totalModules = 13;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+            updateNavigation();
+            
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.quiz-question');
+                    question.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+        });
+
+        // Mobile sidebar toggle
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Navigation
+        function goToModule(moduleNum) {
+            document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+            document.getElementById('module-' + moduleNum).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.module == moduleNum) item.classList.add('active');
+            });
+            
+            document.getElementById('sidebar').classList.remove('open');
+            window.scrollTo(0, 0);
+        }
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                goToModule(this.dataset.module);
+            });
+        });
+
+        function completeAndNext(moduleNum) {
+            completeModule(moduleNum);
+            if (moduleNum < totalModules) goToModule(moduleNum + 1);
+        }
+
+        function completeModule(moduleNum) {
+            if (!completedModules.includes(moduleNum)) {
+                completedModules.push(moduleNum);
+                localStorage.setItem('jw-completed-modules', JSON.stringify(completedModules));
+                updateProgress();
+                updateNavigation();
+            }
+        }
+
+        function updateProgress() {
+            const percent = Math.round((completedModules.length / totalModules) * 100);
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressPercent').textContent = percent;
+        }
+
+        function updateNavigation() {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                const moduleNum = parseInt(item.dataset.module);
+                if (completedModules.includes(moduleNum)) item.classList.add('completed');
+            });
+        }
+
+        // Quiz checking
+        function checkQuiz(moduleNum) {
+            const moduleEl = document.getElementById('module-' + moduleNum);
+            const questions = moduleEl.querySelectorAll('.quiz-question');
+            
+            questions.forEach(question => {
+                const correct = question.dataset.correct;
+                const selected = question.querySelector('.quiz-option.selected');
+                const feedback = question.querySelector('.quiz-feedback');
+                
+                question.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                });
+                
+                if (!selected) {
+                    feedback.textContent = 'Please select an answer';
+                    feedback.className = 'quiz-feedback show incorrect';
+                    return;
+                }
+                
+                const selectedValue = selected.dataset.value;
+                
+                if (selectedValue === correct) {
+                    selected.classList.add('correct');
+                    feedback.textContent = '✓ Correct!';
+                    feedback.className = 'quiz-feedback show correct';
+                } else {
+                    selected.classList.add('incorrect');
+                    question.querySelector(`[data-value="${correct}"]`).classList.add('correct');
+                    feedback.textContent = '✗ Not quite. See the correct answer highlighted.';
+                    feedback.className = 'quiz-feedback show incorrect';
+                }
+            });
+        }
+
+        // Final Assessment
+        function checkFinalAssessment() {
+            const container = document.getElementById('finalAssessment');
+            const questions = container.querySelectorAll('.quiz-question');
+            let correctCount = 0;
+            let answered = 0;
+            
+            questions.forEach(question => {
+                const correct = question.dataset.correct;
+                const selected = question.querySelector('.quiz-option.selected');
+                const feedback = question.querySelector('.quiz-feedback');
+                
+                question.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                });
+                
+                if (selected) {
+                    answered++;
+                    const selectedValue = selected.dataset.value;
+                    
+                    if (selectedValue === correct) {
+                        correctCount++;
+                        selected.classList.add('correct');
+                        feedback.textContent = '✓ Correct!';
+                        feedback.className = 'quiz-feedback show correct';
+                    } else {
+                        selected.classList.add('incorrect');
+                        question.querySelector(`[data-value="${correct}"]`).classList.add('correct');
+                        feedback.textContent = '✗ Incorrect';
+                        feedback.className = 'quiz-feedback show incorrect';
+                    }
+                } else {
+                    feedback.textContent = 'Not answered';
+                    feedback.className = 'quiz-feedback show incorrect';
+                }
+            });
+            
+            const totalQuestions = questions.length;
+            const percentage = Math.round((correctCount / totalQuestions) * 100);
+            const passed = percentage >= 80;
+            
+            document.getElementById('assessmentResults').style.display = 'block';
+            document.getElementById('scoreDisplay').textContent = `${correctCount}/${totalQuestions} (${percentage}%)`;
+            
+            if (passed) {
+                document.getElementById('resultsTitle').textContent = '🎉 Congratulations! You Passed!';
+                document.getElementById('resultsMessage').textContent = 'You have successfully completed the Application Specialist training. Generate your certificate below.';
+                document.getElementById('certificateSection').style.display = 'block';
+                completeModule(13);
+            } else {
+                document.getElementById('resultsTitle').textContent = '📚 Keep Learning';
+                document.getElementById('resultsMessage').textContent = `You need 80% to pass. Review the modules and try again. Focus on the questions you missed.`;
+                document.getElementById('certificateSection').style.display = 'none';
+            }
+            
+            document.getElementById('assessmentResults').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Certificate generation
+        function generateCertificate() {
+            const name = document.getElementById('certName').value.trim();
+            if (!name) {
+                alert('Please enter your name');
+                return;
+            }
+            
+            document.getElementById('certNameDisplay').textContent = name;
+            document.getElementById('certDate').textContent = new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', month: 'long', day: 'numeric' 
+            });
+            document.getElementById('certificateDisplay').style.display = 'block';
+            document.getElementById('certificateDisplay').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Expandable sections
+        function toggleExpand(header) {
+            header.closest('.expandable').classList.toggle('open');
+        }
+
+        // Reset progress (for testing)
+        function resetProgress() {
+            localStorage.removeItem('jw-completed-modules');
+            completedModules = [];
+            updateProgress();
+            location.reload();
+        }
+    </script>
+</body>
+</html>
